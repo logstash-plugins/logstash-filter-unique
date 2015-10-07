@@ -17,7 +17,7 @@ class LogStash::Filters::Unique < LogStash::Filters::Base
 
   public
   def filter(event)
-    return unless filter?(event)
+    
 
     @fields.each do |field|
       next unless event[field].class == Array
