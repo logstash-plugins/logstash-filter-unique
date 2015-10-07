@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name          = 'logstash-filter-unique'
-  s.version         = '2.0.0'
+  s.version         = '2.0.1'
   s.licenses      = ['Apache License (2.0)']
   s.summary       = "This filter gets the list of unique elements out of an array"
   s.description   = "This filter gets the list of unique elements out of an array"
