@@ -39,7 +39,7 @@ filter plugins.
 &nbsp;
 
 [id="plugins-{type}s-{plugin}-fields"]
-===== `fields` 
+===== `fields`
 
   * This is a required setting.
   * Value type is <<array,array>>

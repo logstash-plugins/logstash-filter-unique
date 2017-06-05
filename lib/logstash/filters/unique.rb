@@ -2,9 +2,7 @@
 require "logstash/filters/base"
 require "logstash/namespace"
 
-
 class LogStash::Filters::Unique < LogStash::Filters::Base
-
   config_name "unique"
 
   # The fields on which to run the unique filter.
@@ -17,13 +15,11 @@ class LogStash::Filters::Unique < LogStash::Filters::Base
 
   public
   def filter(event)
-    
-
     @fields.each do |field|
-      next unless event[field].class == Array
-
-      event[field] = event[field].uniq
+      next unless event.include?(field)
+      next unless event.get(field).is_a?(Array)
+      event.set(field, event.get(field).uniq)
     end
   end # def filter
 
-end # class Logstash::Filters::Unique
+end # class LogStash::Filters::Unique
