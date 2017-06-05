@@ -1,30 +1,56 @@
-require_relative '../spec_helper'
-require 'logstash/filters/unique'
+# encoding: utf-8
+
+require "logstash/devutils/rspec/spec_helper"
+require "logstash/filters/unique"
 
 describe LogStash::Filters::Unique do
 
-  it "should register" do
-    plugin = LogStash::Plugin.lookup("filter", "unique").new("fields" => [])
-    expect {plugin.register}.to_not raise_error
+  describe "unique on non array should return origin value" do
+    # The logstash config goes here.
+    # At this time, only filters are supported.
+    config <<-CONFIG
+      filter {
+        unique {
+          fields => ["field1"]
+        }
+      }
+    CONFIG
+
+    sample("field1" => "asdf") do
+      insist { subject.get("field1") } == "asdf"
+    end
   end
 
-  context "when having an array of elements" do
+  describe "unique on array of integers" do
+    # The logstash config goes here.
+    # At this time, only filters are supported.
+    config <<-CONFIG
+      filter {
+        unique {
+          fields => ["field2"]
+        }
+      }
+    CONFIG
 
-    let(:plugin) { LogStash::Filters::Unique.new("fields" => "array") }
-    let(:data)   { { "array" => [1,2,1,2,1,2,1,2], "other_field" => "dummy string" }}
-    let(:event)  { LogStash::Event.new(data) }
-
-    before(:each) do
-      plugin.filter(event)
+    sample("field2" => [1,2,1,2,1,2,1,2]) do
+      insist { subject.get("field2") } == [1,2]
     end
+  end
 
-    it "filter all events in the array property" do
-      expect(event["array"]).to eq([1,2])
+
+  describe "unique on array of strings" do
+    # The logstash config goes here.
+    # At this time, only filters are supported.
+    config <<-CONFIG
+      filter {
+        unique {
+          fields => ["field3"]
+        }
+      }
+    CONFIG
+
+    sample("field3" => ["a", "b", "c", "c", "d"]) do
+      insist { subject.get("field3") } == ["a", "b", "c", "d"]
     end
-
-    it "does not touch non filtered properties" do
-      expect(event["other_field"]).to eq("dummy string")
-    end
-
   end
 end
