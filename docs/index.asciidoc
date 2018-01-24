@@ -20,7 +20,7 @@ include::{include_path}/plugin_header.asciidoc[]
 
 ==== Description
 
-
+This filter gets the list of unique elements out of an array.
 
 [id="plugins-{type}s-{plugin}-options"]
 ==== Unique Filter Configuration Options
